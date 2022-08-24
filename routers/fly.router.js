@@ -25,4 +25,29 @@ flyRouter.get("/", (req, response) => {
   });
   
 
+
+  flyRouter.post("/", (req, res) => {
+    const { name, country, date } = req.body;
+    let error = [];
+    if (!name) {
+      error.push("missing name in body requst");
+    }
+    if (!country) {
+      error.push("missing country in body requst");
+    }
+    if (!date) {
+      error.push("missing date in body requst");
+    }
+  
+    if (error.length) {
+      res.status(400).send(error);
+    }
+  
+    let fly = req.body;
+    fly.flyID = getNextIndex();
+    gFlyInfo.push(fly);
+    res.send("Done!!! fly save successfuly");
+  });
+  
+
 module.exports = {flyRouter, gFlyInfo, getNextIndex};

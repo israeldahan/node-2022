@@ -2,12 +2,12 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const {flyRouter, gFlyInfo, getNextIndex } = require('./routers/fly.router')
-app.use('/fly', flyRouter)
 
 
 
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use('/fly', flyRouter)
 
 
 // http://localhost:3000?limit=10&offset=5
@@ -63,28 +63,6 @@ app.get("/hello-world/:name", (req, res) => {
   res.send("done");
 });
 
-app.post("/", (req, res) => {
-  const { name, country, date } = req.body;
-  let error = [];
-  if (!name) {
-    error.push("missing name in body requst");
-  }
-  if (!country) {
-    error.push("missing country in body requst");
-  }
-  if (!date) {
-    error.push("missing date in body requst");
-  }
-
-  if (error.length) {
-    res.status(400).send(error);
-  }
-
-  let fly = req.body;
-  fly.flyID = getNextIndex();
-  gFlyInfo.push(fly);
-  res.send("Done!!! fly save successfuly");
-});
 
 app.put("/:id", (req, res) => {
   let { name, country, date } = req.body;
