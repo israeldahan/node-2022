@@ -1,12 +1,12 @@
 const express = require("express");
 const flyRouter = express.Router();
-const { getFlights, getFly, createFly, updateFly ,patchFly, deleteFly} = require("../controllers/fly-controller");
+const flyController = require("../controllers/fly-controller");
 
-flyRouter.get("/", getFlights);
-flyRouter.get("/:id", getFly);
-flyRouter.post("/", createFly);
-flyRouter.put("/:id", updateFly );
-flyRouter.patch("/:id", patchFly);
-flyRouter.delete("/:id", deleteFly);
+flyRouter.get("/", flyController.getFlights);
+flyRouter.get("/:id", flyController.getFly);
+flyRouter.post("/", flyController.createFly);
+flyRouter.put("/:id", flyController.updateFly );
+flyRouter.patch("/:id", flyController.patchFly);
+flyRouter.delete("/:id", flyController.deleteFly);
 
 module.exports = { flyRouter };

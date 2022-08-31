@@ -8,6 +8,9 @@ function getNextIndex() {
   return ++currentIndex;
 }
 
+function getAllFlights() {
+  return allFlights
+}
 
 function getById(id) {
   let idFly = allFlights.find((fly) => fly.flyID == id);
@@ -79,4 +82,4 @@ function init() {
 }
 
 init()
-module.exports = { allFlights, getById , createFly, deleteFly, updateFly, patchFly};
+module.exports = { getAllFlights, getById , createFly, deleteFly, updateFly, patchFly};

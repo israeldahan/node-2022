@@ -3,7 +3,7 @@ const flyService = require('../services/fly-service')
 
 function getFlights(req, response) {
   let { limit, offset } = req.query;
-  let newGFlyInfo = flyService.allFlights;
+  let newGFlyInfo = flyService.getAllFlights();
 
   if (offset) {
     offset = parseInt(offset, 10);
