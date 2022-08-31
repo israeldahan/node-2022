@@ -1,0 +1,11 @@
+#fly {
+    background-color: rgb(143, 214, 255);
+    margin: 10px 20px;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+#fly p {
+    margin: 0 10px;
+}

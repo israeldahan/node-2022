@@ -1,13 +1,12 @@
 const express = require("express");
 const app = express();
 const port = 3000;
-const {flyRouter, gFlyInfo, getNextIndex } = require('./routers/fly.router')
-
-
+const { flyRouter, gFlyInfo, getNextIndex} = require('./routers/fly-router')
 
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use('/fly', flyRouter)
+app.use(express.static('public'))
 
 
 // http://localhost:3000?limit=10&offset=5
@@ -30,12 +29,12 @@ app.use('/fly', flyRouter)
 // }
 
 // //
-function Helloworld(name, object, cb) {
-  let outputLocal = `Hi ${name} you are fly in fly number ${object.name}`;
-  if (typeof cb == "function") {
-    cb(outputLocal);
-  }
-}
+// function Helloworld(name, object, cb) {
+//   let outputLocal = `Hi ${name} you are fly in fly number ${object.name}`;
+//   if (typeof cb == "function") {
+//     cb(outputLocal);
+//   }
+// }
 
 // Helloworld("israel", {name: "moshe"}, (output) => {
 //     let out = `b_afterHelloWorld output is: ${output}`
@@ -58,62 +57,11 @@ function Helloworld(name, object, cb) {
 //     console.log(`res.flyDemo is: ${res.status()}`)
 // }
 
-app.get("/hello-world/:name", (req, res) => {
-  let name = req.params.name;
-  res.send("done");
-});
+// app.get("/hello-world/:name", (req, res) => {
+//   let name = req.params.name;
+//   res.send("done");
+// });
 
-
-app.put("/:id", (req, res) => {
-  let { name, country, date } = req.body;
-
-  gFlyInfo.forEach((item) => {
-    if (item.flyID == req.params.id) {
-      item.name = name;
-      item.country = country;
-      item.date = date;
-    }
-  });
-  res.send(gFlyInfo);
-});
-
-app.patch("/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  // get object from array
-  const flyObj = getById(id);
-
-  // update object
-  const { name, country, date } = req.body;
-  const defineObject = {
-    ...(name && { name }),
-    ...(country && { country }),
-    ...(date && { date }),
-  };
-  const patchObject = { ...flyObj, ...defineObject };
-
-  // update array with new object
-  const flyMap = gFlyInfo.map((object) => object.flyID);
-  let index = flyMap.indexOf(id);
-  gFlyInfo[index] = patchObject;
-  res.send(gFlyInfo);
-});
-
-function getById(id) {
-  let idFly = gFlyInfo.find((fly) => fly.flyID == id);
-  return idFly;
-}
-
-app.delete("/:id", (req, res) => {
-  // let {name, country, date} = req.body;
-  let id = parseInt(req.params.id);
-  // returns array of id's examle: [2,1,3,4,6,5]
-  const flyMap = gFlyInfo.map((object) => object.flyID);
-  // returns the index of id in array
-  let index = flyMap.indexOf(id);
-  //
-  gFlyInfo.splice(index, 1);
-  res.send(gFlyInfo);
-});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
