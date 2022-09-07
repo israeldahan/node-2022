@@ -8,29 +8,57 @@
     <title>Document</title>
 </head>
 <body>
+    <form action="/" id="search-form">
+        <label for="flyNum">fly number:</label>
+        <input type="text" id="flyNum" name="flyNum"><br><br>
+        <input type="submit" value="Submit">
+      </form>
+      
     <div id="text"></div>
     <script>
+        const searchForm = document.getElementById('search-form')
+        const flyNum = document.getElementById('flyNum')
+        searchForm.addEventListener('submit', (event) => {
+            event.preventDefault()
+            
+            setText(`fly/number/${flyNum.value}`)
+        })
+        console.log("hi 1");
+        setTimeout( () => {console.log("Hi 2");}, 1000)
+        console.log("hi 3");
 
-        const getText = async () => {
+        // get
+        const getText = async (endpoint, ) => {
             let text = ''
-            const response = await fetch('http://localhost:3000/fly')
+            text += `<table>
+                            <tr>
+                                <th>AirLine</th>
+                                <th>ID</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                            </tr>
+`
+            const response = await fetch(`http://localhost:3000/${endpoint}`)
             const data = await  response.json()
-            const res = await data.map(element => {
-                text += `<div id="fly">`
-                text += `<p> AirLine: ${element.Airline} </p>` 
-                text += `<p> Date: ${element.ScheduledDate} </p>` 
-                text += `<p> Time: ${element.ScheduledDateTime} </p>` 
-                text += `<p> Status: ${element.Status} </p>` 
-                text += `<p> ${element.FlightsType} </p>`
-                text += `</div>` 
+            const res = data.map(element => {
+                // text += `<div id="fly">`
+                text += `<tr>`
+                text += `<td> ${element.Airline} </td>` 
+                text += `<td> ${element.Flight} </td>` 
+                text += `<td> ${element.ScheduledDate} </td>` 
+                text += `<td> ${element.ScheduledDateTime} </td>` 
+                text += `<td> ${element.Status} </td>` 
+                text += `<td> ${element.FlightsType} </td>`
+                text += `</tr>` 
             });
             return text;
         }
-        const setText = async () => {
-            let t = await getText()
+        const setText = async (url) => {
+            let t = await getText(url)
             document.getElementById("text").innerHTML = t
         }
-        setText()
+        setText('fly')
     </script>
 
 

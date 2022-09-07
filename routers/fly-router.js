@@ -4,6 +4,7 @@ const flyController = require("../controllers/fly-controller");
 
 flyRouter.get("/", flyController.getFlights);
 flyRouter.get("/:id", flyController.getFly);
+flyRouter.get("/number/:number", flyController.getFlyByNum);
 flyRouter.post("/", flyController.createFly);
 flyRouter.put("/:id", flyController.updateFly );
 flyRouter.patch("/:id", flyController.patchFly);

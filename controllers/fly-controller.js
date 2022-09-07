@@ -28,6 +28,18 @@ function getFly(req, response) {
   }
 }
 
+
+function getFlyByNum(req, response) {
+  const number = req.params.number;
+  const flyObj = flyService.getByFlyNumber(number);
+  if(!!flyObj){
+      response.status(200).json(flyObj)
+  } else {
+    response.status(404).send(`Not Found any fly in id ${id}`)
+  }
+}
+
+
 function createFly(req, res) {
   const { name, country, date } = req.body;
   let error = [];
@@ -79,4 +91,4 @@ function deleteFly (req, res){
   res.status(200).json(flyObj);
 }
 
-module.exports = { getFlights, getFly, createFly, updateFly, patchFly, deleteFly };
+module.exports = { getFlights, getFly, createFly, updateFly, patchFly, deleteFly, getFlyByNum };

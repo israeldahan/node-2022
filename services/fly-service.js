@@ -1,5 +1,5 @@
-const INITIAL_FLIGHTS_ARRIVALS = require('./fly-arrivals.json')
-const INITIAL_FLIGHTS_DEPARTURES = require('./fly-departures.json')
+const INITIAL_FLIGHTS_ARRIVALS = require("./fly-arrivals.json");
+const INITIAL_FLIGHTS_DEPARTURES = require("./fly-departures.json");
 
 let allFlights = [];
 let currentIndex = allFlights.length;
@@ -9,7 +9,7 @@ function getNextIndex() {
 }
 
 function getAllFlights() {
-  return allFlights
+  return allFlights;
 }
 
 function getById(id) {
@@ -17,10 +17,14 @@ function getById(id) {
   return idFly;
 }
 
+function getByFlyNumber(flyNumber) {
+  let fly = allFlights.filter((fly) => fly.Flight.toLowerCase().includes(flyNumber.toLowerCase()));
+  return fly;
+}
 function createFly(fly) {
   fly.flyID = getNextIndex();
   allFlights.push(fly);
-  return fly
+  return fly;
 }
 
 function deleteFly(id) {
@@ -34,7 +38,7 @@ function deleteFly(id) {
   return flyObj;
 }
 
-function updateFly (newFly, id){
+function updateFly(newFly, id) {
   let { name, country, date } = newFly;
   allFlights.forEach((item) => {
     if (item.flyID == id) {
@@ -45,10 +49,10 @@ function updateFly (newFly, id){
   });
   const flyMap = allFlights.map((object) => object.flyID);
   let index = flyMap.indexOf(id);
-  return allFlights[index]
+  return allFlights[index];
 }
 
-function patchFly(flyData, id){
+function patchFly(flyData, id) {
   const flyObj = getById(id);
 
   // update object
@@ -64,22 +68,33 @@ function patchFly(flyData, id){
   const flyMap = allFlights.map((object) => object.flyID);
   let index = flyMap.indexOf(id);
   allFlights[index] = patchObject;
-  return allFlights[index]
+  return allFlights[index];
 }
 
 function init() {
-  INITIAL_FLIGHTS_ARRIVALS.Flights.forEach(element => {
-    element.FlightsType = "arrivals"
+  INITIAL_FLIGHTS_ARRIVALS.Flights.forEach((element) => {
+    element.FlightsType = "arrivals";
   });
-  INITIAL_FLIGHTS_DEPARTURES.Flights.forEach(element => {
-    element.FlightsType = "departures"
+  INITIAL_FLIGHTS_DEPARTURES.Flights.forEach((element) => {
+    element.FlightsType = "departures";
   });
-  allFlights = [...INITIAL_FLIGHTS_ARRIVALS.Flights, ...INITIAL_FLIGHTS_DEPARTURES.Flights ]
-  allFlights.forEach(item => {
-    item.flyID = getNextIndex()
-  })
+  allFlights = [
+    ...INITIAL_FLIGHTS_ARRIVALS.Flights,
+    ...INITIAL_FLIGHTS_DEPARTURES.Flights,
+  ];
+  allFlights.forEach((item) => {
+    item.flyID = getNextIndex();
+  });
   // currentIndex = allFlights[allFlights.length - 1].id
 }
 
-init()
-module.exports = { getAllFlights, getById , createFly, deleteFly, updateFly, patchFly};
+init();
+module.exports = {
+  getAllFlights,
+  getById,
+  createFly,
+  deleteFly,
+  updateFly,
+  patchFly,
+  getByFlyNumber,
+};
